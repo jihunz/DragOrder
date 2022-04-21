@@ -1,102 +1,100 @@
-class DragOrder {
-    constructor(list) {
-        this.dragEvents(list);
-    }
+// class DragOrder {
+//     constructor(list, direction) {
+//         this.setFlex(list, direction);
+//         this.setDragEvent(list);
 
-    dragEvents(list) {
-            this.flex(list);
+//         this.moveOrder = this.moveOrder.bind(this);
+//     }
 
-            Array.from(document.querySelector(`${list} > .dragItem`)).forEach((item, index) => {
-                 document.querySelector(item).setAttribute("draggable", true);
-                 document.querySelector(item).setAttribute("draggable", true).setAttribute("data-order", index);
+//     setFlex(list, direction) {
+//         document.querySelector(list).setAttribute("style", "display: flex; flex-direction: column;");
+//     }
 
-                // dragstart
-                 document.querySelector(item).on("dragstart", e => {
-                    console.log(`dragStart: ${e.target.dataset["order"]}`);
+//     setDragEvent(list) {
+//         let dragItem = document.querySelectorAll(".dragItem");
 
-                    // e.target.classList.add("dragStart");
-                    e.target.className = "dragStart";
+//         Array.from(dragItem).forEach(function (item, index) {
+//             item.setAttribute("draggable", true);
+//             item.setAttribute("data-order", index);
 
-                    e.dataTransfer.setData("text/plain", e.target.dataset["order"]);
-                });
+//             // dragstart
+//             item.addEventListener("dragstart", e => {
+//                 console.log(`dragStart: ${e.target.dataset["order"]}`);
 
-                // dragenter
-                 document.querySelector(item).on("dragenter", e => {
-                    console.log(`dragenter: ${e.target.dataset["order"]}`);
+//                 e.target.classList.add("dragStart");
 
-                    $(e.target).addClass("dragOver");
-                });
+//                 e.dataTransfer.setData("text/plain", e.target.dataset["order"]);
+//             });
 
-                // dragleave
-                 document.querySelector(item).on("dragleave", e => {
-                    console.log(`dragleave: ${e.target.dataset["order"]}`);
+//             // dragenter
+//             item.addEventListener("dragenter", e => {
+//                 console.log(`dragenter: ${e.target.dataset["order"]}`);
 
-                    $(e.target).removeClass("dragOver");
-                });
+//                 e.target.classList.add("dragOver");
+//             });
 
-                // dragover
-                 document.querySelector(item).on("dragover", e => {
-                    console.log(`dragover: ${e.target.dataset["order"]}`);
+//             // dragleave
+//             item.addEventListener("dragleave", e => {
+//                 console.log(`dragleave: ${e.target.dataset["order"]}`);
 
-                    // 드래그가 끝났을 때 이벤트 버블링을 방지 -> event canceling
-                    e.preventDefault();
-                });
+//                 e.target.classList.remove("dragOver");
+//             });
 
-                // dragend
-                 document.querySelector(item).on("dragend", e => {
-                    // e.target.classList.remove("dragStart");
-                    $(e.target).removeClass("dragStart");
-                });
+//             // dragover
+//             item.addEventListener("dragover", e => {
+//                 console.log(`dragover: ${e.target.dataset["order"]}`);
 
-                // drop
-                 document.querySelector(item).on("drop", e => {
-                    console.log(`drop: ${e.target.dataset["order"]}`);
+//                 // 드래그가 끝났을 때 이벤트 버블링을 방지 -> event canceling
+//                 e.preventDefault();
+//             });
 
-                    e.preventDefault();
+//             // dragend
+//             item.addEventListener("dragend", e => {
+//                 e.target.classList.remove("dragStart");
+//             });
 
-                    $(e.target).removeClass("dragOver");
+//             // drop
+//             item.addEventListener("drop", e => {
+//                 console.log(`drop: ${e.target.dataset["order"]}`);
 
-                    const source = e.originalEvent.dataTransfer.getData("text/plain");
-                    const target = e.target.dataset["order"];
+//                 e.preventDefault();
 
-                    console.log(`MOVE: ${source} ===>>> ${target}`);
+//                 e.target.classList.remove("dragOver");
 
-                    this.moveOrder(source, target, list);
-                });
-            });
-    }
+//                 const source = e.dataTransfer.getData("text/plain");
+//                 const target = e.target.dataset["order"];
 
-    moveOrder(source_, target_, list) {
-        const source = parseInt(source_);
-        const target = parseInt(target_);
-    
-        $(`${list} > .dragItem`).each((index, item) => {
-            const order = parseInt(item.dataset["order"]);
-    
-            if (source < target) {
-                if (order == source) {
-                    item.dataset["order"] = target;
-    
-                    //구간 내에 있는 요소만 변동
-                } else if (order > source && order <= target)
-                    item.dataset["order"] = order - 1;
-            } else {
-                if (order == source)
-                    item.dataset["order"] = target;
-                else if (order < source && order >= target)
-                    item.dataset["order"] = order + 1;
-            }
-        });
-    
-        $(`${list} > .dragItem`).each((index, item) => {
-            item.style.order = item.dataset["order"];
-        });
-    }
-    
-    flex(list) {
-        $(list).css({
-            "display": "flex",
-            "flex-direction" : "column"
-        });
-    }
-}
+//                 console.log(`MOVE: ${source} ===>>> ${target}`);
+
+//                 this.moveOrder(source, target);
+//             });
+//         });
+//     }
+
+//     moveOrder(source_, target_) {
+//         const source = parseInt(source_);
+//         const target = parseInt(target_);
+
+//         Array.from(dragItem).forEach(function (item) {
+//             const order = parseInt(item.dataset["order"]);
+
+//             if (source < target) {
+//                 if (order == source) {
+//                     item.dataset["order"] = target;
+
+//                     //구간 내에 있는 요소만 변동
+//                 } else if (order > source && order <= target)
+//                     item.dataset["order"] = order - 1;
+//             } else {
+//                 if (order == source)
+//                     item.dataset["order"] = target;
+//                 else if (order < source && order >= target)
+//                     item.dataset["order"] = order + 1;
+//             }
+//         });
+
+//         Array.from(dragItem).forEach(function (item) {
+//             item.setAttribute("style", `order: ${item.dataset["order"]}`);
+//         });
+//     }
+// }
