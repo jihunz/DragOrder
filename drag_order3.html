@@ -15,8 +15,10 @@
             /* background-position-y: calc(198 * 0); */
         }
     </style>
+    
+    <!-- drag_order jquery 버젼 -->
+    <script src="drag_order_jquery.js"></script>
 
-    <script src="drag_order.js"></script>
 </head>
 <body>
     <div>
@@ -37,6 +39,7 @@
     </div>    
 </body>
 </html>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <script>
     document.querySelectorAll(".dragItem").forEach((item, index) => {
         const x = 900 - (150 * (index % 6));

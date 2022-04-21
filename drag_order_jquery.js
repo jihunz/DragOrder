@@ -1,11 +1,17 @@
 class DragOrder {
-    constructor(list) {
-        this.dragEvents(list);
+    constructor(list, direction) {
+        this.setFlex(list, direction);
+        this.setDragEvent(list);
     }
 
-    dragEvents(list) {
-            this.flex(list);
+    setFlex(list, direction) {
+        $(list).css({
+            "display": "flex",
+            "flex-direction" : direction == true ? "row" : "column"
+        });
+    }
 
+    setDragEvent(list) {
             $(`${list} > .dragItem`).each((index, item) => {
                 $(item).attr("draggable", true).attr("data-order", index);
 
@@ -89,13 +95,6 @@ class DragOrder {
     
         $(`${list} > .dragItem`).each((index, item) => {
             item.style.order = item.dataset["order"];
-        });
-    }
-    
-    flex(list) {
-        $(list).css({
-            "display": "flex",
-            "flex-direction" : "column"
         });
     }
 }
