@@ -1,0 +1,21 @@
+.dragItem {
+    list-style: none;
+
+    background-color: darkgrey;
+    height: 50px;
+    line-height: 50px;
+    width: 300px;
+    text-align: center;
+    font-weight: bold;
+
+    margin: 5px 0;
+}
+
+.dragStart {    
+    opacity: 50%;
+}
+
+.dragOver {    
+    opacity: 50%;
+    background-color: aqua;
+}

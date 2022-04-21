@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>    
+    
+    <link rel="stylesheet" type="text/css" href="drag_order.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    <script src="drag_order.js"></script>
+
+</head>
+<body>
+    <div>
+        <div>
+            <h1>드래그 하여 순서를 변경 할 수 있습니다</h1>
+        </div>
+        <div>
+            <ul id="list">
+                <li class="dragItem">1번째</li>
+                <li class="dragItem">2번째</li>
+                <li class="dragItem">3번째</li>
+                <li class="dragItem">4번째</li>
+                <li class="dragItem">5번째</li>
+                <li class="dragItem">6번째</li>
+                <li class="dragItem">7번째</li>
+                <li class="dragItem">8번째</li>
+                <li class="dragItem">9번째</li>
+                <li class="dragItem">10번째</li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        new DragOrder("#list");
+    </script>
+</body>
+</html>

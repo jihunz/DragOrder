@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+
+    <style>
+        .dragItem {
+            width: 150px;
+            height: 198px;
+            background-image: url("drag_order.jpg");
+            /* background-position-x: calc(900 - (150 * 6)); */
+            /* background-position-y: calc(198 * 0); */
+        }
+    </style>
+
+    <script src="drag_order.js"></script>
+</head>
+<body>
+    <div>
+        <div id="images">
+            <div class="dragItem"></div>
+            <div class="dragItem"></div>
+            <div class="dragItem"></div>
+            <div class="dragItem"></div>
+            <div class="dragItem"></div>
+            <div class="dragItem"></div>
+            <div class="dragItem"></div>
+            <div class="dragItem"></div>
+            <div class="dragItem"></div>
+            <div class="dragItem"></div>
+            <div class="dragItem"></div>
+            <div class="dragItem"></div>
+        </div>
+    </div>    
+</body>
+</html>
+<script>
+    document.querySelectorAll(".dragItem").forEach((item, index) => {
+        const x = 900 - (150 * (index % 6));
+        const y = 198 * parseInt(index / 6);
+
+        console.log(`${index} - ${x}, ${y}`);
+
+        item.style["background-position-x"] = x + "px";     // RIGHT 기준 오프셋
+        item.style["background-position-y"] = y + "px";     // TOP 기준 오프셋
+    });
+</script>
+<script>
+    new DragOrder("#images", true);
+</script>

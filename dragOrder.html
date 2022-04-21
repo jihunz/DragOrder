@@ -6,125 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        ul {
-            display: flex;
-            flex-direction: column;
-        }
+    <link rel="stylesheet" href="dragOrder.css">
 
-        li {
-            list-style: none;
-            width: 300px;
-            height: 50px;
-            line-height: 50px;
-            background: #ddd;
-            text-align: center;
-            margin: 20px;
-            font-size: 30px;
-            font-weight: 700;
-        }
-
-        .dragStart {
-            opacity: 40%;
-        }
-
-        .dragOver {
-            opacity: 40%;
-            background: aqua;
-        }
-    </style>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-
-    <script>
-        $(() => {
-            $("#drag_order > li").each((index, item) => {
-                $(item).attr("draggable", true).attr("data-order", index);
-
-                // dragstart
-                $(item).on("dragstart", e => {
-                    console.log(`dragStart: ${e.target.dataset["order"]}`);
-
-                    // e.target.classList.add("dragStart");
-                    $(e.target).addClass("dragStart");
-
-                    e.originalEvent.dataTransfer.setData("text/plain", e.target.dataset["order"]);
-                });
-
-                // dragenter
-                $(item).on("dragenter", e => {
-                    console.log(`dragenter: ${e.target.dataset["order"]}`);
-
-                    $(e.target).addClass("dragOver");
-                });
-
-                // dragleave
-                $(item).on("dragleave", e => {
-                    console.log(`dragleave: ${e.target.dataset["order"]}`);
-
-                    $(e.target).removeClass("dragOver");
-                });
-
-                // dragover
-                $(item).on("dragover", e => {
-                    console.log(`dragover: ${e.target.dataset["order"]}`);
-
-                    // 드래그가 끝났을 때 이벤트 버블링을 방지 -> event canceling
-                    e.preventDefault();
-                });
-
-                // dragend
-                $(item).on("dragend", e => {
-                    // e.target.classList.remove("dragStart");
-                    $(e.target).removeClass("dragStart");
-                });
-
-                // drop
-                $(item).on("drop", e => {
-                    console.log(`drop: ${e.target.dataset["order"]}`);
-
-                    e.preventDefault();
-
-                    $(e.target).removeClass("dragOver");
-
-                    const source = e.originalEvent.dataTransfer.getData("text/plain");
-                    const target = e.target.dataset["order"];
-
-                    console.log(`MOVE: ${source} ===>>> ${target}`);
-
-                    moveOrder(source, target);
-                });
-            });
-        })
-
-        function moveOrder(source_, target_) {
-            const source = parseInt(source_);
-            const target = parseInt(target_);
-
-            $("#drag_order > li").each((index, item) => {
-                const order = parseInt(item.dataset["order"]);
-
-                if (source < target) {
-                    if (order == source) {
-                        item.dataset["order"] = target;
-                        
-                        //구간 내에 있는 요소만 변동
-                    } else if (order > source && order <= target)
-                        item.dataset["order"] = order - 1;
-                } else {
-                    if (order == source)
-                        item.dataset["order"] = target;
-                    else if (order < source && order >= target)
-                        item.dataset["order"] = order + 1;
-                }
-            })
-
-            $("#drag_order > li").each((index, item) => {
-                item.style.order = item.dataset["order"];
-            });
-        }
-    </script>
 </head>
 
 <body>
@@ -133,20 +16,25 @@
             <h1>드래그를 이용한 순서 변경</h1>
         </div>
         <div>
-            <ul id="drag_order">
-                <li>0</li>
-                <li>1</li>
-                <li>2</li>
-                <li>3</li>
-                <li>4</li>
-                <li>5</li>
-                <li>6</li>
-                <li>7</li>
-                <li>8</li>
-                <li>9</li>
+            <ul id="dragList">
+                <li class="dragItem">0</li>
+                <li class="dragItem">1</li>
+                <li class="dragItem">2</li>
+                <li class="dragItem">3</li>
+                <li class="dragItem">4</li>
+                <li class="dragItem">5</li>
+                <li class="dragItem">6</li>
+                <li class="dragItem">7</li>
+                <li class="dragItem">8</li>
+                <li class="dragItem">9</li>
             </ul>
         </div>
     </div>
 </body>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="drag_order.js"></script>
+    <script>
+        new DragOrder("#dragList");
+    </script>
 
 </html>
