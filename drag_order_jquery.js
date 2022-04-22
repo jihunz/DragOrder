@@ -1,17 +1,17 @@
 class DragOrder {
     constructor(list, direction) {
-        this.setFlex(list, direction);
-        this.setDragEvent(list);
+        this.addFlex(list, direction);
+        this.addDragEvent(list);
     }
 
-    setFlex(list, direction) {
+    addFlex(list, direction) {
         $(list).css({
             "display": "flex",
             "flex-direction" : direction == true ? "row" : "column"
         });
     }
 
-    setDragEvent(list) {
+    addDragEvent(list) {
             $(`${list} > .dragItem`).each((index, item) => {
                 $(item).attr("draggable", true).attr("data-order", index);
 
