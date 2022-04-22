@@ -1,16 +1,14 @@
 class DragOrder {
     constructor(list, direction) {
-        this.setFlex(list, direction);
-        this.setDragEvent(list);
-
-        this.moveOrder = this.moveOrder.bind(this);
+        this.addFlex(list, direction);
+        this.addDragEvent(list);
     }
 
-    setFlex(list, direction) {
-        document.querySelector(list).setAttribute("style", "display: flex; flex-direction: column;");
+    addFlex(list, direction) {
+        document.querySelector(list).setAttribute("style", `display: flex; flex-direction: ${direction ? "row" : "column;"}`);
     }
 
-    setDragEvent(list) {
+    addDragEvent(list) {
         let dragItem = document.querySelectorAll(".dragItem");
 
         Array.from(dragItem).forEach(function (item, index) {
@@ -38,40 +36,62 @@ class DragOrder {
             item.addEventListener("dragend", e => e.target.classList.remove("dragStart"));
 
             // drop
-            item.addEventListener("drop", e => {
+            item.addEventListener("drop", function (e) {
                 e.preventDefault();
 
                 e.target.classList.remove("dragOver");
 
-                const source = e.dataTransfer.getData("text/plain");
-                const target = e.target.dataset["order"];
+                const source_ = e.dataTransfer.getData("text/plain");
+                const target_ = e.target.dataset["order"];
 
-                this.moveOrder(source, target);
+                const source = parseInt(source_);
+                const target = parseInt(target_);
+
+                Array.from(dragItem).forEach(function (item) {
+                    const order = parseInt(item.dataset["order"]);
+
+                    if (source < target) {
+                        if (order == source) {
+                            item.dataset["order"] = target;
+                        } else if (order > source && order <= target)
+                            item.dataset["order"] = order - 1;
+                    } else {
+                        if (order == source)
+                            item.dataset["order"] = target;
+                        else if (order < source && order >= target)
+                            item.dataset["order"] = order + 1;
+                    }
+                });
+
+                Array.from(dragItem).forEach(function (item) {
+                    item.setAttribute("style", `order: ${item.dataset["order"]}`);
+                });
             });
         });
     }
 
-    moveOrder(source_, target_) {
-        const source = parseInt(source_);
-        const target = parseInt(target_);
+    // moveOrder(source_, target_) {
+    //     const source = parseInt(source_);
+    //     const target = parseInt(target_);
 
-        Array.from(dragItem).forEach(function (item) {
-            const order = parseInt(item.dataset["order"]);
+    //     Array.from(dragItem).forEach(function (item) {
+    //         const order = parseInt(item.dataset["order"]);
 
-            if (source < target) {
-                if (order == source) {
-                } else if (order > source && order <= target)
-                    item.dataset["order"] = order - 1;
-            } else {
-                if (order == source)
-                    item.dataset["order"] = target;
-                else if (order < source && order >= target)
-                    item.dataset["order"] = order + 1;
-            }
-        });
+    //         if (source < target) {
+    //             if (order == source) {
+    //                 item.dataset["order"] = target;
+    //             } else if (order > source && order <= target)
+    //                 item.dataset["order"] = order - 1;
+    //         } else {
+    //             if (order == source)
+    //                 item.dataset["order"] = target;
+    //             else if (order < source && order >= target)
+    //                 item.dataset["order"] = order + 1;
+    //         }
+    //     });
 
-        Array.from(dragItem).forEach(function (item) {
-            item.setAttribute("style", `order: ${item.dataset["order"]}`);
-        });
-    }
+    //     Array.from(dragItem).forEach(function (item) {
+    //         item.setAttribute("style", `order: ${item.dataset["order"]}`);
+    //     });
+    // }
 }
