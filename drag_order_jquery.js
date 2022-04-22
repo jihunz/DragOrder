@@ -1,7 +1,10 @@
 class DragOrder {
     constructor(list, direction) {
-        this.addFlex(list, direction);
-        this.addDragEvent(list);
+        this.list = list;
+        this.direction = direction;
+
+        this.addFlex(this.list, this.direction);
+        this.addDragEvent(this.list);
     }
 
     addFlex(list, direction) {
@@ -12,40 +15,40 @@ class DragOrder {
     }
 
     addDragEvent(list) {
-            $(`${list} > .dragItem`).each((index, item) => {
-                $(item).attr("draggable", true).attr("data-order", index);
+        $(`${list} > .dragItem`).each((index, item) => {
+            $(item).attr("draggable", true).attr("data-order", index);
 
-                // dragstart
-                $(item).on("dragstart", e => {
-                    $(e.target).addClass("dragStart");
+            // dragstart
+            $(item).on("dragstart", e => {
+                $(e.target).addClass("dragStart");
 
-                    e.originalEvent.dataTransfer.setData("text/plain", e.target.dataset["order"]);
-                });
-
-                // dragenter
-                $(item).on("dragenter", e => $(e.target).addClass("dragOver"));
-
-                // dragleave
-                $(item).on("dragleave", e => $(e.target).removeClass("dragOver"));
-
-                // dragover
-                $(item).on("dragover", e => e.preventDefault());
-
-                // dragend
-                $(item).on("dragend", e => $(e.target).removeClass("dragStart"));
-
-                // drop
-                $(item).on("drop", e => {
-                    e.preventDefault();
-
-                    $(e.target).removeClass("dragOver");
-
-                    const source = e.originalEvent.dataTransfer.getData("text/plain");
-                    const target = e.target.dataset["order"];
-
-                    this.moveOrder(source, target, list);
-                });
+                e.originalEvent.dataTransfer.setData("text/plain", e.target.dataset["order"]);
             });
+
+            // dragenter
+            $(item).on("dragenter", e => $(e.target).addClass("dragOver"));
+
+            // dragleave
+            $(item).on("dragleave", e => $(e.target).removeClass("dragOver"));
+
+            // dragover
+            $(item).on("dragover", e => e.preventDefault());
+
+            // dragend
+            $(item).on("dragend", e => $(e.target).removeClass("dragStart"));
+
+            // drop
+            $(item).on("drop", e => {
+                e.preventDefault();
+
+                $(e.target).removeClass("dragOver");
+
+                const source = e.originalEvent.dataTransfer.getData("text/plain");
+                const target = e.target.dataset["order"];
+
+                this.moveOrder(source, target, list);
+            });
+        });
     }
 
     moveOrder(source_, target_, list) {
