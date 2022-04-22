@@ -7,7 +7,7 @@ class DragOrder {
     addFlex(list, direction) {
         $(list).css({
             "display": "flex",
-            "flex-direction" : direction == true ? "row" : "column"
+            "flex-direction" : direction ? "row" : "column"
         });
     }
 
