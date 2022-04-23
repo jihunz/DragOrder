@@ -67,7 +67,7 @@ class DragOrder {
                     const x = 900 - (150 * (index % 6));
                     const y = 198 * parseInt(index / 6);
 
-                    const bg_position = window.getComputedStyle(item)["background-image"] && window.getComputedStyle(item)["background-image"] != "none" ? `background-position-x: ${x}px; background-position-y: ${y}px;` : null;
+                    const bg_position = window.getComputedStyle(item)["background-image"] && window.getComputedStyle(item)["background-image"] != "none" ? `background-position-x: ${x}px; background-position-y: ${y}px;` : "";
 
                     item.setAttribute("style", `order: ${item.dataset["order"]}; ${bg_position}`);
                 });
